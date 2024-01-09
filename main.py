@@ -3,7 +3,7 @@ import interactions
 import random
 
 # Defines the bot permissions and prefix
-bot = interactions.Client(token='MTAwOTIxMTcyMjUzNzYzMTc2NA.Gv1-Mf.FGuwlfvKZ2nyg0O66SHktpsXZOTnAQWBVZULR0')
+bot = interactions.Client(token='[INSERT BOT TOKEN HERE]')
 
 # Creates list containing the game modifiers
 modifiers = ['Randomized Weapons', 'Randomized Weapons', 'Same Random Weapon', 'Same Random Weapon',

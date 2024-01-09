@@ -2,7 +2,7 @@
 import interactions
 import random
 
-# Defines the bot permissions and prefix
+# Initializes the bot
 bot = interactions.Client(token='[INSERT BOT TOKEN HERE]')
 
 # Creates list containing the game modifiers

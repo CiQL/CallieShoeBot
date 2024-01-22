@@ -1,0 +1,173 @@
+[[package]]
+name = "aiohttp"
+version = "3.9.1"
+description = "Async http client/server framework (asyncio)"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+aiosignal = ">=1.1.2"
+async-timeout = {version = ">=4.0,<5.0", markers = "python_version < \"3.11\""}
+attrs = ">=17.3.0"
+frozenlist = ">=1.1.1"
+multidict = ">=4.5,<7.0"
+yarl = ">=1.0,<2.0"
+
+[package.extras]
+speedups = ["brotlicffi", "brotli", "aiodns"]
+
+[[package]]
+name = "aiosignal"
+version = "1.3.1"
+description = "aiosignal: a list of registered asynchronous callbacks"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+frozenlist = ">=1.1.0"
+
+[[package]]
+name = "async-timeout"
+version = "4.0.3"
+description = "Timeout context manager for asyncio programs"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
+name = "attrs"
+version = "23.2.0"
+description = "Classes Without Boilerplate"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+cov = ["attrs", "coverage[toml] (>=5.3)"]
+dev = ["attrs", "pre-commit"]
+docs = ["furo", "myst-parser", "sphinx", "sphinx-notfound-page", "sphinxcontrib-towncrier", "towncrier", "zope-interface"]
+tests = ["attrs", "zope-interface"]
+tests-mypy = ["mypy (>=1.6)", "pytest-mypy-plugins"]
+tests-no-zope = ["attrs", "cloudpickle", "hypothesis", "pympler", "pytest-xdist", "pytest (>=4.3.0)"]
+
+[[package]]
+name = "discord-py-interactions"
+version = "5.11.0"
+description = "Easy, simple, scalable and modular: a Python API wrapper for interactions."
+category = "main"
+optional = false
+python-versions = ">=3.10"
+
+[package.dependencies]
+aiohttp = "*"
+attrs = ">=22.1"
+discord-typings = ">=0.5.1"
+emoji = "*"
+tomli = "*"
+
+[package.extras]
+all = ["PyNaCl (>=1.5.0,<1.6)", "aiodns", "orjson", "brotli", "faust-cchardet", "sentry-sdk", "jurigged", "aioconsole (>=0.6.0)", "uvloop"]
+console = ["aioconsole (>=0.6.0)"]
+dev = ["pytest", "pytest-asyncio", "pytest-cov", "python-dotenv", "typeguard", "PyNaCl (>=1.5.0,<1.6)", "aiodns", "orjson", "brotli", "faust-cchardet", "sentry-sdk", "jurigged", "aioconsole (>=0.6.0)", "mkdocs-autorefs", "mkdocs-awesome-pages-plugin", "mkdocs-material", "mkdocstrings-python", "mkdocs-minify-plugin", "mkdocs-git-committers-plugin-2", "mkdocs-git-revision-date-localized-plugin", "griffe (==0.25)", "pre-commit", "uvloop"]
+docs = ["PyNaCl (>=1.5.0,<1.6)", "aiodns", "orjson", "brotli", "faust-cchardet", "sentry-sdk", "jurigged", "aioconsole (>=0.6.0)", "mkdocs-autorefs", "mkdocs-awesome-pages-plugin", "mkdocs-material", "mkdocstrings-python", "mkdocs-minify-plugin", "mkdocs-git-committers-plugin-2", "mkdocs-git-revision-date-localized-plugin", "griffe (==0.25)", "uvloop"]
+jurigged = ["jurigged"]
+sentry = ["sentry-sdk"]
+speedup = ["aiodns", "orjson", "brotli", "faust-cchardet", "uvloop"]
+tests = ["pytest", "pytest-asyncio", "pytest-cov", "python-dotenv", "typeguard"]
+voice = ["PyNaCl (>=1.5.0,<1.6)"]
+
+[[package]]
+name = "discord-typings"
+version = "0.7.0"
+description = "Python typings of payloads that Discord sends"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+typing_extensions = ">=4.3,<5"
+
+[[package]]
+name = "emoji"
+version = "2.10.0"
+description = "Emoji for Python"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+
+[package.extras]
+dev = ["pytest", "coverage", "coveralls"]
+
+[[package]]
+name = "frozenlist"
+version = "1.4.1"
+description = "A list-like structure which implements collections.abc.MutableSequence"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[[package]]
+name = "idna"
+version = "3.6"
+description = "Internationalized Domain Names in Applications (IDNA)"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[[package]]
+name = "multidict"
+version = "6.0.4"
+description = "multidict implementation"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
+name = "tomli"
+version = "2.0.1"
+description = "A lil' TOML parser"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
+name = "typing-extensions"
+version = "4.9.0"
+description = "Backported and Experimental Type Hints for Python 3.8+"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[[package]]
+name = "yarl"
+version = "1.9.4"
+description = "Yet another URL library"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+idna = ">=2.0"
+multidict = ">=4.0"
+
+[metadata]
+lock-version = "1.1"
+python-versions = "^3.10"
+content-hash = "fd1eec42d49acf7bc58f69f33f7252aade9af4823f728aa2b4e87cb8f2df7d83"
+
+[metadata.files]
+aiohttp = []
+aiosignal = []
+async-timeout = []
+attrs = []
+discord-py-interactions = []
+discord-typings = []
+emoji = []
+frozenlist = []
+idna = []
+multidict = []
+tomli = []
+typing-extensions = []
+yarl = []

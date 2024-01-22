@@ -6,9 +6,13 @@
 
 In order to host and run your own version of the CallieShoeBot, you must first download the main.py file located in this repository. After downloading the file, I recommend you download the PyCharm IDE created by JetBrains, unless you have a preferred IDE for Python. After installing PyCharm, you must next install the required libraries, which can easily be done by right clicking on the import statements at the start of the file and then selecting, "show context actions" and then "install package [library]." With the main.py file and required libraries imported, you can move on to the next step.
 
+If you choose to clone this repository, you may have to set up your poetry install by regenerating the lock file (deleting and recreating it with `poetry lock`) and/or installing the dependencies (using `poetry install`), probably.
+
+You must be running Python 3.10 or above.
+
 ### 2) Create a discord application
 
-To actually create a bot and invite it to a server, you must first create a discord application. To do this, go to https://discord.com/developers/applications and sign into your discord account. Next, click on the "New Application" button in the top right of the window. After naming and optionally setting an icon for the application, you must next click on the "Bot" section on the sidebar. Here, you must copy the bot token and paste in into line 6 of the main.py file, replacing "[INSERT BOT TOKEN HERE]" (including the square brackets). With this done, you can move on to the next step.
+To actually create a bot and invite it to a server, you must first create a discord application. To do this, go to https://discord.com/developers/applications and sign into your discord account. Next, click on the "New Application" button in the top right of the window. After naming and optionally setting an icon for the application, you must next click on the "Bot" section on the sidebar. Here, you must either copy the bot token and paste in into line 6 of the main.py file, replacing `os.environ.get('BOT_TOKEN')`, or setting the environment variable `BOT_TOKEN` with the bot token value on your server host. With this done, you can move on to the next step.
 
 ### 3) Invite the bot
 
@@ -22,4 +26,6 @@ If you wish to alter the Double Down modifiers, then you will need to scroll to 
 
 If you wish to alter the list of weapons, subs, or specials that can be selected, then you must edit the lists that can be found in the randomWeapon(), randomSub(), and randomSpecial() functions. Adding or removing elements from the list is all that must be done, unlike the steps required to add a modifier.
 
-After all of your desired changes have been made, you can simply run the main.py file in your desired IDE or hosting service and your bot should become online. If you experience any issues or have any questions, feel free to DM "carovescence" on discord.
+After all of your desired changes have been made, you can simply run the main.py file in your desired IDE or hosting service and your bot should become online.
+
+If you choose to clone this repository, you can also run the bot on your server by using [Poetry](https://python-poetry.org/) and running `poetry run python main.py` in the main directory of the git repository.

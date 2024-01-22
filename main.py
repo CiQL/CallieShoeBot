@@ -1,9 +1,10 @@
 # Imports required libraries
 import interactions
 import random
+import os
 
 # Initializes the bot
-bot = interactions.Client(token='[INSERT BOT TOKEN HERE]')
+bot = interactions.Client(token=os.environ.get('BOT_TOKEN'))
 
 # Creates list containing the game modifiers
 modifiers = ['Randomized Weapons', 'Randomized Weapons', 'Same Random Weapon', 'Same Random Weapon',
@@ -421,7 +422,8 @@ async def flip(ctx: interactions.SlashContext):
 @interactions.slash_command(name='weapons', description='Selects random weapon(s)')
 @interactions.slash_option(opt_type=interactions.OptionType.INTEGER, name="amount",
                      description="Choose the amount of weapons to generate.", required=True)
-async def weapons(ctx: interactions.SlashContext, arg):
+async def weapons(ctx: interactions.SlashContext, amount: int):
+    arg = amount
     if arg <= 12:
         str = ''
         while arg >= 1:
@@ -468,11 +470,13 @@ async def special(ctx: interactions.SlashContext):
 @interactions.slash_command(name='maplist', description='Generates [num] random map(s).')
 @interactions.slash_option(name='amount', description='The amount of maps you would like to generate.', opt_type=interactions.OptionType.INTEGER,
                      required=True)
-async def mapList(ctx: interactions.SlashContext, num):
+async def mapList(ctx: interactions.SlashContext, amount: int):
     maps = ['Scorch Gorge', 'Eeltail Alley', 'Hagglefish Market', 'Undertow Spillway', 'Mincemeat Metalworks',
             'Hammerhead Bridge', 'Museum D\'Alfonsino', 'Mahi-Mahi Resort', 'Inkblot Art Academy',
             'Sturgeon Shipyard', 'Makomark', 'Wahoo World']
     gameModes = ['Splat Zones', 'Tower Control', 'Rainmaker', 'Clam Blitz']
+
+    num = amount
 
     length1 = 0
     for x in maps:

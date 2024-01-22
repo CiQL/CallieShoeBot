@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "CallieShoeBot"
+version = "0.1.0"
+description = "Discord bot for randomizing Splatoon 3 weapons"
+authors = ["Carovescence"]
+readme = "README.md"
+classifiers = ["Private :: Do not Upload"] # just in case
+
+[tool.poetry.dependencies]
+python = "^3.10"
+discord-py-interactions = "^5.11.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

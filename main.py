@@ -397,7 +397,7 @@ async def spin(ctx: interactions.SlashContext):
                                    description=f'Something has gone wrong. Please ping or DM <@371465781260845058> to see what went wrong.')
         embed.set_author(name='THE WHEEL HAS SPOKEN')
 
-    embed.set_footer(text='Please contact a TO in the helpdesk channel if you have any questions')
+    embed.set_footer(text='')
     await ctx.send(embeds=embed)
 
 
@@ -430,7 +430,7 @@ async def weapons(ctx: interactions.SlashContext, amount: int):
             str += randomWeapon() + '\n'
             arg -= 1
         embed = interactions.Embed(title='Weapons List', description=f'{str}', color=0x83eeff)
-        embed.set_footer(text='Please contact a TO in the helpdesk channel if you have any questions')
+        embed.set_footer(text='')
         await ctx.send(embeds=embed)
     else:
         await ctx.send(
@@ -442,7 +442,7 @@ async def weapons(ctx: interactions.SlashContext, amount: int):
 async def sub(ctx: interactions.SlashContext):
     sub = randomSub()
     embed = interactions.Embed(title='Random Sub:', description=f'{sub}', color=0x83eeff)
-    embed.set_footer(text='Please contact a TO in the helpdesk channel if you have any questions')
+    embed.set_footer(text='')
     await ctx.send(embeds=embed)
 
 
@@ -451,7 +451,7 @@ async def sub(ctx: interactions.SlashContext):
 async def Class(ctx: interactions.SlashContext):
     randClass = randomClass()
     embed = interactions.Embed(title='Random Class:', description=f'{randClass}', color=0x83eeff)
-    embed.set_footer(text='Please contact a TO in the helpdesk channel if you have any questions')
+    embed.set_footer(text='')
     await ctx.send(embeds=embed)
 
 
@@ -462,7 +462,7 @@ async def special(ctx: interactions.SlashContext):
 
     # Selects a random index of the 'modifiers' dictionary
     embed = interactions.Embed(title='Random Special:', color=0x83eeff, description=f'{special}')
-    embed.set_footer(text='Please contact a TO in the helpdesk channel if you have any questions')
+    embed.set_footer(text='')
     await ctx.send(embeds=embed)
 
 
@@ -510,7 +510,7 @@ async def mapList(ctx: interactions.SlashContext, amount: int):
 
             num -= 1
     embed = interactions.Embed(title='Maps:', color=0x83eeff, description=msg)
-    embed.set_footer(text='Please contact a TO in the helpdesk channel if you have any questions')
+    embed.set_footer(text='')
     await ctx.send(embeds=embed)
 
 
@@ -691,7 +691,7 @@ async def help(ctx: interactions.SlashContext):
     embed.add_field(name='/class', value='Selects a random weapon class')
     embed.add_field(name='/maplist [x]', value='Selects [x] random maps and game modes')
     embed.add_field(name='/doubledown', value='The wheel has spoken')
-    embed.set_footer(text='Please contact a TO in the helpdesk channel if you have any questions')
+    embed.set_footer(text='')
     await ctx.send(embeds=embed)
 
 

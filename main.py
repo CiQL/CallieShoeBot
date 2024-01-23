@@ -473,7 +473,7 @@ async def special(ctx: interactions.SlashContext):
 async def mapList(ctx: interactions.SlashContext, amount: int):
     maps = ['Scorch Gorge', 'Eeltail Alley', 'Hagglefish Market', 'Undertow Spillway', 'Mincemeat Metalworks',
             'Hammerhead Bridge', 'Museum D\'Alfonsino', 'Mahi-Mahi Resort', 'Inkblot Art Academy',
-            'Sturgeon Shipyard', 'Makomark', 'Wahoo World']
+            'Sturgeon Shipyard', 'MakoMart', 'Wahoo World']
     gameModes = ['Splat Zones', 'Tower Control', 'Rainmaker', 'Clam Blitz']
 
     num = amount

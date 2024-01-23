@@ -486,14 +486,14 @@ async def sub_prefix(ctx: Union[interactions.SlashContext, prefixed_commands.Pre
 
 # Defines the args and name of the 'class' command
 @interactions.slash_command(name='class', description='Generates a random weapon class')
-async def class(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
+async def Class(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
     randClass = randomClass()
     embed = interactions.Embed(title='Random Class:', description=f'{randClass}', color=0x83eeff)
     embed.set_footer(text='')
     await ctx.send(embeds=embed)
 
 @prefixed_commands.prefixed_command(name='class')
-async def class_prefix(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
+async def Class_prefix(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
     randClass = randomClass()
     embed = interactions.Embed(title='Random Class:', description=f'{randClass}', color=0x83eeff)
     embed.set_footer(text='')

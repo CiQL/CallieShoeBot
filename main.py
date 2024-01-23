@@ -490,6 +490,8 @@ async def mapList(ctx: interactions.SlashContext, amount: int):
 
     if int(num) <= 0:
         return await ctx.send('Invalid Input: Input a positive number')
+    if int(num) > 50:
+        return await ctx.send('Invalid Input: Cannot send over 50 maps!')
     while num > 0:
         if num > 1:
 

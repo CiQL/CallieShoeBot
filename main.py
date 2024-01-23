@@ -546,9 +546,11 @@ def mapList_function(ctx: Union[interactions.SlashContext, prefixed_commands.Pre
     msg = ''
 
     if int(num) <= 0:
-        return await ctx.send('Invalid Input: Input a positive number')
+        embed = interactions.Embed(title='Error', color=0xff0000, description='Invalid Input: Input a positive number')
+        return embed
     if int(num) > 50:
-        return await ctx.send('Invalid Input: Cannot send over 50 maps!')
+        embed = interactions.Embed(title='Error', color=0xff0000, description='Invalid Input: Cannot send over 50 maps!')
+        return embed
     while num > 0:
         if num > 1:
 

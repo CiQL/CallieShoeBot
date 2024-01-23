@@ -1,10 +1,13 @@
 # Imports required libraries
 import interactions
+from interactions.ext import prefixed_commands
 import random
 import os
+from typing import Union
 
 # Initializes the bot
 bot = interactions.Client(token=os.environ.get('BOT_TOKEN'))
+prefixed_commands.setup(bot)
 
 # Creates list containing the game modifiers
 modifiers = ['Randomized Weapons', 'Randomized Weapons', 'Same Random Weapon', 'Same Random Weapon',
@@ -16,6 +19,7 @@ modifiers = ['Randomized Weapons', 'Randomized Weapons', 'Same Random Weapon', '
              'Sacrificial Specials', 'Randomized Gear', 'Besties', 'Killer Wail Kerfuffle', 'Secret Agents',
              'Bubble Bath', 'Double Down', 'Double Down']
 
+embed = interactions.Embed(title='Empty', color=0x83eeff, description=f'Empty embed. Something has gone wrong.')
 
 @bot.event
 async def on_ready():
@@ -24,9 +28,8 @@ async def on_ready():
 
 # Defines the args and name of the 'spin' command
 @interactions.slash_command(name='spin', description='Spin the Wheel.')
-async def spin(ctx: interactions.SlashContext):
-    # The sole purpose of this is to make the bot shut up
-    global embed
+@prefixed_commands.prefixed_command()
+async def spin(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
 
     # Selects a random index of the 'modifiers' dictionary
     mod = modifiers[random.randrange(0, len(modifiers))]
@@ -404,13 +407,15 @@ async def spin(ctx: interactions.SlashContext):
 # Defines the args and name of the 'roll' command
 @interactions.slash_command(name='roll', description='Rolls a die with the specified amount of sides.')
 @interactions.slash_option(opt_type=interactions.OptionType.INTEGER, name='value', description='number of sides of a die')
-async def roll(ctx: interactions.SlashContext, value):
+@prefixed_commands.prefixed_command()
+async def roll(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext], value):
     await ctx.send(f'You rolled a {random.randrange(1, value + 1)}.')
 
 
 # Defines the args and name of the 'flip' command
 @interactions.slash_command(name='flip', description='Heads or Tails?')
-async def flip(ctx: interactions.SlashContext):
+@prefixed_commands.prefixed_command()
+async def flip(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
     num = random.randrange(0, 2)
     if num == 0:
         await ctx.send('Heads')
@@ -422,7 +427,8 @@ async def flip(ctx: interactions.SlashContext):
 @interactions.slash_command(name='weapons', description='Selects random weapon(s)')
 @interactions.slash_option(opt_type=interactions.OptionType.INTEGER, name="amount",
                      description="Choose the amount of weapons to generate.", required=True)
-async def weapons(ctx: interactions.SlashContext, amount: int):
+@prefixed_commands.prefixed_command()
+async def weapons(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext], amount: int):
     arg = amount
     if arg <= 12:
         str = ''
@@ -439,7 +445,8 @@ async def weapons(ctx: interactions.SlashContext, amount: int):
 
 # Defines the args and name of the 'sub' command
 @interactions.slash_command(name='sub', description='Generates a random subweapon')
-async def sub(ctx: interactions.SlashContext):
+@prefixed_commands.prefixed_command()
+async def sub(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
     sub = randomSub()
     embed = interactions.Embed(title='Random Sub:', description=f'{sub}', color=0x83eeff)
     embed.set_footer(text='')
@@ -448,7 +455,8 @@ async def sub(ctx: interactions.SlashContext):
 
 # Defines the args and name of the 'class' command
 @interactions.slash_command(name='class', description='Generates a random weapon class')
-async def Class(ctx: interactions.SlashContext):
+@prefixed_commands.prefixed_command()
+async def Class(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
     randClass = randomClass()
     embed = interactions.Embed(title='Random Class:', description=f'{randClass}', color=0x83eeff)
     embed.set_footer(text='')
@@ -457,7 +465,8 @@ async def Class(ctx: interactions.SlashContext):
 
 # Defines the args and name of the 'special' command
 @interactions.slash_command(name='special', description='Generates a random special.')
-async def special(ctx: interactions.SlashContext):
+@prefixed_commands.prefixed_command()
+async def special(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
     special = randomSpecial()
 
     # Selects a random index of the 'modifiers' dictionary
@@ -470,7 +479,8 @@ async def special(ctx: interactions.SlashContext):
 @interactions.slash_command(name='maplist', description='Generates [num] random map(s).')
 @interactions.slash_option(name='amount', description='The amount of maps you would like to generate.', opt_type=interactions.OptionType.INTEGER,
                      required=True)
-async def mapList(ctx: interactions.SlashContext, amount: int):
+@prefixed_commands.prefixed_command()
+async def mapList(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext], amount: int):
     maps = ['Scorch Gorge', 'Eeltail Alley', 'Hagglefish Market', 'Undertow Spillway', 'Mincemeat Metalworks',
             'Hammerhead Bridge', 'Museum D\'Alfonsino', 'Mahi-Mahi Resort', 'Inkblot Art Academy',
             'Sturgeon Shipyard', 'MakoMart', 'Wahoo World']
@@ -518,10 +528,8 @@ async def mapList(ctx: interactions.SlashContext, amount: int):
 
 # Defines the args and name of the 'doubledown' command
 @interactions.slash_command(name='doubledown', description='Generates 2 random modifiers.')
-async def doubledown(ctx: interactions.SlashContext):
-    # The sole purpose of this is to make the bot shut up
-    global embed
-
+@prefixed_commands.prefixed_command()
+async def doubledown(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
     # Generates two modifiers
     mod1, mod2 = doubleDown()
 
@@ -684,7 +692,8 @@ async def doubledown(ctx: interactions.SlashContext):
 
 # Defines the args and name of the 'help' command
 @interactions.slash_command(name='help', description='Explains the various commands this bot can execute.')
-async def help(ctx: interactions.SlashContext):
+@prefixed_commands.prefixed_command()
+async def help(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
     embed = interactions.Embed(title='Commands', color=0x83eeff)
     embed.add_field(name='/spin', value='Selects a random game modifier')
     embed.add_field(name='/weapons [num]', value='Generates a specified amount of random weapons')

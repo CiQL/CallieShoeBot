@@ -29,10 +29,10 @@ async def on_ready():
 # Defines the args and name of the 'spin' command
 @interactions.slash_command(name='spin', description='Spin the Wheel.')
 async def spin(ctx: interactions.SlashContext):
-    await ctx.Embed(embeds=spin_function(ctx))
+    await ctx.send(embeds=spin_function(ctx))
 @prefixed_commands.prefixed_command(name='spin')
 async def spin_prefix(ctx: prefixed_commands.PrefixedContext):
-    await ctx.Embed(embeds=spin_function(ctx))
+    await ctx.send(embeds=spin_function(ctx))
 def spin_function(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
     # Selects a random index of the 'modifiers' dictionary
     mod = modifiers[random.randrange(0, len(modifiers))]

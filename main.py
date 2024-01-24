@@ -209,7 +209,7 @@ def maplist_function(amount: int):
         return interactions.Embed(title='Error', color=_COLOR_ERROR, description='Invalid Input: Cannot send over 50 maps!')
 
     msg = [f'{random.choice(maps)} - {random.choice(game_modes)}' for _ in range(amount)]
-    embed = interactions.Embed(title='Maps:', color=_COLOR, description=msg)
+    embed = interactions.Embed(title='Maps:', color=_COLOR, description='\n'.join(msg))
     return embed
 
 

@@ -26,9 +26,12 @@ async def on_ready():
 @interactions.slash_command(name='spin', description='Spin the Wheel.')
 async def spin(ctx: interactions.SlashContext):
     await ctx.send(embeds=modifier_function())
+
+
 @prefixed_commands.prefixed_command(name='spin')
 async def spin_prefix(ctx: prefixed_commands.PrefixedContext):
     await ctx.send(embeds=modifier_function())
+
 
 # Defines the args and name of the 'roll' command
 @interactions.slash_command(name='roll', description='Rolls a die with the specified amount of sides.')
@@ -36,14 +39,17 @@ async def spin_prefix(ctx: prefixed_commands.PrefixedContext):
 async def roll(ctx: interactions.SlashContext, value: int):
     await ctx.send(f'You rolled a {random.randint(1, value)}.')
 
+
 @prefixed_commands.prefixed_command(name='roll')
 async def roll_prefix(ctx: prefixed_commands.PrefixedContext, value: int):
     await ctx.send(f'You rolled a {random.randint(1, value)}.')
+
 
 # Defines the args and name of the 'flip' command
 @interactions.slash_command(name='flip', description='Heads or Tails?')
 async def flip(ctx: interactions.SlashContext):
     await ctx.send(random.choice(['Heads', 'Tails']))
+
 
 @prefixed_commands.prefixed_command(name='flip')
 async def flip_prefix(ctx: prefixed_commands.PrefixedContext):
@@ -62,6 +68,7 @@ async def weapons(ctx: interactions.SlashContext, amount: int):
     else:
         await ctx.send('There is a limit of 12 weapons that can be generated at once, please lower the amount specified.')
 
+
 @prefixed_commands.prefixed_command(name='weapons')
 async def weapons_prefix(ctx: prefixed_commands.PrefixedContext, amount: int):
     if amount <= 12:
@@ -78,10 +85,12 @@ async def sub(ctx: interactions.SlashContext):
     embed = interactions.Embed(title='Random Sub:', color=_COLOR, description=f'{randomSub()}')
     await ctx.send(embeds=embed)
 
+
 @prefixed_commands.prefixed_command(name='sub')
 async def sub_prefix(ctx: prefixed_commands.PrefixedContext):
     embed = interactions.Embed(title='Random Sub:', color=_COLOR, description=f'{randomSub()}')
     await ctx.send(embeds=embed)
+
 
 # Defines the args and name of the 'class' command
 @interactions.slash_command(name='class', description='Generates a random weapon class')
@@ -89,16 +98,19 @@ async def Class(ctx: interactions.SlashContext):
     embed = interactions.Embed(title='Random Class:', color=_COLOR, description=f'{randomClass()}')
     await ctx.send(embeds=embed)
 
+
 @prefixed_commands.prefixed_command(name='class')
 async def Class_prefix(ctx: prefixed_commands.PrefixedContext):
     embed = interactions.Embed(title='Random Class:', color=_COLOR, description=f'{randomClass()}')
     await ctx.send(embeds=embed)
+
 
 # Defines the args and name of the 'special' command
 @interactions.slash_command(name='special', description='Generates a random special.')
 async def special(ctx: interactions.SlashContext):
     embed = interactions.Embed(title='Random Special:', color=_COLOR, description=f'{randomSpecial()}')
     await ctx.send(embeds=embed)
+
 
 @prefixed_commands.prefixed_command(name='special')
 async def special_prefix(ctx: prefixed_commands.PrefixedContext):
@@ -111,10 +123,55 @@ async def special_prefix(ctx: prefixed_commands.PrefixedContext):
                      required=True)
 async def maplist(ctx: interactions.SlashContext, amount: int):
     await ctx.send(embeds=mapList_function(amount))
+
+
 @prefixed_commands.prefixed_command(name='maplist')
 async def maplist_prefix(ctx: prefixed_commands.PrefixedContext, amount: int):
     await ctx.send(embeds=mapList_function(amount))
 
+
+# Defines the args and name of the 'doubledown' command
+@interactions.slash_command(name='doubledown', description='Generates 2 random modifier_pool.')
+async def doubledown(ctx: interactions.SlashContext):
+    await ctx.send(embed=doubledown_function())
+
+
+@prefixed_commands.prefixed_command(name='doubledown')
+async def doubledown_prefix(ctx: prefixed_commands.PrefixedContext):
+    await ctx.send(embed=doubledown_function())
+
+
+# Defines the args and name of the 'help' command
+@interactions.slash_command(name='help', description='Explains the various commands this bot can execute.')
+async def Help(ctx: interactions.SlashContext):
+    embed = interactions.Embed(title='Commands', color=_COLOR)
+    embed.add_field(name='/spin', value='Selects a random game modifier')
+    embed.add_field(name='/weapons [num]', value='Generates a specified amount of random weapons')
+    embed.add_field(name='/sub', value='Selects a random sub weapon')
+    embed.add_field(name='/special', value='Selects a random special')
+    embed.add_field(name='/class', value='Selects a random weapon class')
+    embed.add_field(name='/maplist [x]', value='Selects [x] random maps and game modes')
+    embed.add_field(name='/doubledown', value='The wheel has spoken')
+    embed.set_footer(text='')
+    await ctx.send(embeds=embed)
+
+
+@prefixed_commands.prefixed_command(name='help')
+async def Help_prefix(ctx: prefixed_commands.PrefixedContext):
+    embed = interactions.Embed(title='Commands', color=_COLOR)
+    embed.add_field(name='/spin', value='Selects a random game modifier')
+    embed.add_field(name='/weapons [num]', value='Generates a specified amount of random weapons')
+    embed.add_field(name='/sub', value='Selects a random sub weapon')
+    embed.add_field(name='/special', value='Selects a random special')
+    embed.add_field(name='/class', value='Selects a random weapon class')
+    embed.add_field(name='/maplist [x]', value='Selects [x] random maps and game modes')
+    embed.add_field(name='/doubledown', value='The wheel has spoken')
+    embed.set_footer(text='')
+    await ctx.send(embeds=embed)
+
+
+
+# HELPER FUNCTIONS
 def maplist_function(amount: int):
     maps = [
         'Scorch Gorge',
@@ -151,46 +208,6 @@ def maplist_function(amount: int):
     embed = interactions.Embed(title='Maps:', color=_COLOR, description=msg)
     return embed
 
-
-# Defines the args and name of the 'doubledown' command
-@interactions.slash_command(name='doubledown', description='Generates 2 random modifier_pool.')
-async def doubledown(ctx: interactions.SlashContext):
-    await ctx.send(embed=doubledown_function())
-
-@prefixed_commands.prefixed_command(name='doubledown')
-async def doubledown_prefix(ctx: prefixed_commands.PrefixedContext):
-    await ctx.send(embed=doubledown_function())
-
-# Defines the args and name of the 'help' command
-@interactions.slash_command(name='help', description='Explains the various commands this bot can execute.')
-async def Help(ctx: interactions.SlashContext):
-    embed = interactions.Embed(title='Commands', color=_COLOR)
-    embed.add_field(name='/spin', value='Selects a random game modifier')
-    embed.add_field(name='/weapons [num]', value='Generates a specified amount of random weapons')
-    embed.add_field(name='/sub', value='Selects a random sub weapon')
-    embed.add_field(name='/special', value='Selects a random special')
-    embed.add_field(name='/class', value='Selects a random weapon class')
-    embed.add_field(name='/maplist [x]', value='Selects [x] random maps and game modes')
-    embed.add_field(name='/doubledown', value='The wheel has spoken')
-    embed.set_footer(text='')
-    await ctx.send(embeds=embed)
-
-
-@prefixed_commands.prefixed_command(name='help')
-async def Help_prefix(ctx: prefixed_commands.PrefixedContext):
-    embed = interactions.Embed(title='Commands', color=_COLOR)
-    embed.add_field(name='/spin', value='Selects a random game modifier')
-    embed.add_field(name='/weapons [num]', value='Generates a specified amount of random weapons')
-    embed.add_field(name='/sub', value='Selects a random sub weapon')
-    embed.add_field(name='/special', value='Selects a random special')
-    embed.add_field(name='/class', value='Selects a random weapon class')
-    embed.add_field(name='/maplist [x]', value='Selects [x] random maps and game modes')
-    embed.add_field(name='/doubledown', value='The wheel has spoken')
-    embed.set_footer(text='')
-    await ctx.send(embeds=embed)
-
-
-# MODIFIERS
 
 def modifier_function(mod: str = ''):
     if mod == '':
@@ -243,6 +260,39 @@ def modifier_function(mod: str = ''):
         case 'Same Random Weapon Class':
             embed = interactions.Embed(title='Same Random Weapon Class', color=_COLOR,
                                    description=f'All players must use a weapon that is part of the __**{randomClass()}**__ class for this game. No duplicate weapons are allowed.')
+
+                # Process group C mods (implies both mod1 and mod2 are equivalent)
+        case 'Same Random Weapon (DD)':
+            weapon1 = randomWeapon()
+            weapon2 = randomWeapon()
+            while weapon2 == weapon1:
+                weapon2 = randomWeapon()
+            embed = interactions.Embed(title='Same Random Weapon', color=_COLOR,
+                                   description=f'All players must use the __**{weapon1}**__ or __**{weapon2}**__ for this game.')
+
+        case 'Same Random Sub (DD)':
+            sub1 = randomSub()
+            sub2 = randomSub()
+            while sub2 == sub1:
+                sub2 = randomSub()
+            embed = interactions.Embed(title='Same Random Sub', color=_COLOR,
+                                   description=f'All players must use a weapon with __**{sub1}**__ or __**{sub2}**__ for this game.')
+
+        case 'Same Random Special (DD)':
+            special1 = randomSpecial()
+            special2 = randomSpecial()
+            while special2 == special1:
+                special2 = randomSpecial()
+            embed = interactions.Embed(title='Same Random Special', color=_COLOR,
+                                   description=f'All players must use the __**{special1}**__ or __**{special2}**__ for this game.')
+
+        case 'Same Random Weapon Class (DD)':
+            class1 = randomClass()
+            class2 = randomClass()
+            while class2 == class1:
+                class2 = randomClass()
+            embed = interactions.Embed(title='Same Random Weapon Class', color=_COLOR,
+                                   description=f'All players must use a weapon that is part of the __**{class1}**__ class or __**{class2}**__ class for this game. No duplicate weapons are allowed.')
 
         # Trade Enemy Weapons (Normal Odds)
         case 'Enemy Comp Swap':
@@ -312,17 +362,17 @@ def modifier_function(mod: str = ''):
         # Killer Wail Kerfuffle (Normal Odds)
         case 'Killer Wail Kerfuffle':
             embed = interactions.Embed(title='Killer Wail Kerfuffle', color=_COLOR,
-                                   description=f'Vanilla Splattershot Nova or Vanilla Inkbrush must be selected by all players. This game will be played on Eeltail Alley TC.')
+                                   description=f'Vanilla Splattershot Nova or Vanilla Inkbrush must be selected by all players. This game will be played on Eeltail Alley Tower Control.')
 
         # Secret Agents (Normal Odds)
         case 'Secret Agents':
             embed = interactions.Embed(title='Secret Agents', color=_COLOR,
-                                   description=f'Every player must select Undercover Brella. This game will be played on Wahoo World SZ.')
+                                   description=f'Every player must select Undercover Brella. This game will be played on Wahoo World Splat Zones.')
 
         # Bubble Bath (Normal Odds)
         case 'Bubble Bath':
             embed = interactions.Embed(title='Bubble Bath', color=_COLOR,
-                                   description=f'Every player must select Vanilla Bloblobber, except for one player on each team who may select Bloblobber Deco. This game will be played on Inkblot Art Academy RM.')
+                                   description=f'Every player must select Vanilla Bloblobber, except for one player on each team who may select Bloblobber Deco. This game will be played on Inkblot Art Academy Rainmaker.')
 
         # Double Down (Boosted Odds)
         case 'Double Down':
@@ -347,12 +397,13 @@ def modifier_function(mod: str = ''):
     embed.set_footer(text='')
     return embed
 
+
 def doubledown_function():
     mod1, mod2 = ''
     # Defines the groups that double down may select from
     groupA = ['Randomized Weapons', 'Same Random Weapon', 'Two Random Weapons', 'Random Weapon Mirror', 'Same Random Sub', 'Same Random Special', 'Same Random Weapon Class', 'Enemy Comp Swap', 'Team Comp Swap', 'One For All']
     groupB = ['Turf War', 'Trade a Player', 'Deathmatch', 'Rubberband Map Pick', 'Death', 'Permanent Random Weapon', 'Besties', 'Sacrificial Specials', 'Randomized Gear']
-    groupC = ['Same Random Weapon', 'Same Random Sub', 'Same Random Special', 'Same Random Weapon Class']
+    groupC = ['Same Random Weapon (DD)', 'Same Random Sub (DD)', 'Same Random Special (DD)', 'Same Random Weapon Class (DD)']
 
     # Sets a 20% chance of group C being selected
     chance = random.randint(1, 5)
@@ -369,40 +420,12 @@ def doubledown_function():
     # Checks if mod selection is in group C
     if mod1 != mod2:
         # If mod selection is not in group C, process both mods
-        embed.add_field(name=mod1, value=modifier_function(ctx, mod1))
-        embed.add_field(name=mod2, value=modifier_function(ctx, mod2))
+        embed.add_field(name=mod1, value=modifier_function(mod1))
+        embed.add_field(name=mod2, value=modifier_function(mod2))
 
     else:
-        # Process group C mods (implies both mod1 and mod2 are equivalent)
-        if mod1 == 'Same Random Weapon':
-            weapon1 = randomWeapon()
-            weapon2 = randomWeapon()
-            while weapon2 == weapon1:
-                weapon2 = randomWeapon()
-            embed.add_field(name=mod1, value=f'All players must use the __**{weapon1}**__ or __**{weapon2}**__ for this game.')
-
-        elif mod1 == 'Same Random Sub':
-            sub1 = randomSub()
-            sub2 = randomSub()
-            while sub2 == sub1:
-                sub2 = randomSub()
-            embed.add_field(name=mod1, value=f'All players must use a weapon with __**{sub1}**__ or __**{sub2}**__ for this game.')
-
-        elif mod1 == 'Same Random Special':
-            special1 = randomSpecial()
-            special2 = randomSpecial()
-            while special2 == special1:
-                special2 = randomSpecial()
-            embed.add_field(name=mod1, value=f'All players must use the __**{special1}**__ or __**{special2}**__ for this game. The main abilities on every player’s gear can only be Special Charge or Special Power.')
-
-        elif mod1 == 'Same Random Weapon Class':
-            class1 = randomClass()
-            class2 = randomClass()
-            while class2 == class1:
-                class2 = randomClass()
-            embed.add_field(name=mod1, value=f'All players must use a weapon that is part of the __**{class1}**__ class or __**{class2}**__ class for this game. No duplicate weapons are allowed.')
+        embed.add_field(name=mod1, value=modifier_function(mod1))
     return embed
-
 
 
 # RANDOM FUNCTIONS
@@ -437,6 +460,7 @@ def randomModifier():
     ]
     return random.choice(modifier_pool)
 
+
 def randomWeapon():
     weapon = ['.52 Gal', '.96 Gal', '.96 Gal Deco', 'Aerospray MG', 'Aerospray RG', 'Annaki Splattershot Nova',
               'Ballpoint Splatling', 'Ballpoint Splatling Noveau', 'Bamboozler 14 Mk I', 'Big Swig Roller',
@@ -469,10 +493,12 @@ def randomWeapon():
               'Z+F Splat Charger', 'Z+F Splatterscope', 'Zink Mini Splatling']
     return random.choice(weapon)
 
+
 def randomSub():
     subs = ['Splat Bomb', 'Suction Bomb', 'Burst Bomb', 'Curling Bomb', 'Autobomb', 'Ink Mine', 'Toxic Mist',
             'Point Sensor', 'Splash Wall', 'Sprinkler', 'Squid Beakon', 'Fizzy Bomb', 'Torpedo', 'Angle Shooter']
     return random.choice(subs)
+
 
 def randomSpecial():
     specials = ['Inkjet', 'Ink Storm', 'Booyah Bomb', 'Ultra Stamp', 'Trizooka', 'Big Bubbler', 'Zipcaster',
@@ -481,10 +507,12 @@ def randomSpecial():
                 'Triple Splashdown']
     return random.choice(specials)
 
+
 def randomClass():
     classes = ['Shooter', 'Roller', 'Charger', 'Dualies', 'Brella', 'Splatling', 'Blaster', 'Brush', 'Stringer',
                'Splatana']
     return random.choice(classes)
+
 
 def randomHeadgearAbility():
     headgearAbility = ['Ink Saver (Main)', 'Ink Saver (Sub)', 'Ink Recovery Up', 'Run Speed Up', 'Swim Speed Up',
@@ -493,6 +521,7 @@ def randomHeadgearAbility():
                        'Last-Ditch Effort', 'Tenacity', 'Comeback']
     return random.choice(headgearAbility)
 
+
 def randomClothingAbility():
     clothingAbility = ['Ink Saver (Main)', 'Ink Saver (Sub)', 'Ink Recovery Up', 'Run Speed Up', 'Swim Speed Up',
                        'Special Charge Up', 'Special Saver', 'Special Power Up', 'Quick Respawn', 'Quick Super Jump',
@@ -500,13 +529,13 @@ def randomClothingAbility():
                        'Haunt', 'Thermal Ink', 'Respawn Punisher']
     return random.choice(clothingAbility)
 
+
 def randomShoesAbility():
     shoesAbility = ['Ink Saver (Main)', 'Ink Saver (Sub)', 'Ink Recovery Up', 'Run Speed Up', 'Swim Speed Up',
                     'Special Charge Up', 'Special Saver', 'Special Power Up', 'Quick Respawn', 'Quick Super Jump',
                     'Sub Power Up', 'Ink Resistance Up', 'Sub Resistance Up', 'Intensify Action', 'Stealth Jump',
                     'Object Shredder', 'Drop Roller']
     return random.choice(shoesAbility)
-
 
 
 # Ensures that the bot boots properly

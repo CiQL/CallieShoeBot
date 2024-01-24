@@ -34,6 +34,7 @@ modifier_pool = [
     'Secret Agents',
     'Bubble Bath',
     'Double Down', 'Double Down',
+    'One For All'
     ]
 
 _COLOR = 0x83eeff
@@ -65,13 +66,10 @@ def spin_function(ctx: Union[interactions.SlashContext, prefixed_commands.Prefix
                                         description=f'Each player in the lobby must use the weapon corresponding with their slot in the team menu.')
             teams = ['Alpha', 'Bravo']
             players = 4
-            msg = ''
             for team_name in teams:
-                for player in range(players)
-                    msg += f'{randomWeapon()}' + '\n' if player > 1 else ''
+                for player in range(players):
+                    msg = f'{randomWeapon()}' + '\n' if player < players-1 else ''
                     embed.add_field(name=f'Team {team_name}:', value=msg, inline=True)
-                msg = ''
-            embed.set_author(name='THE WHEEL HAS SPOKEN')
 
         # Same Random Weapon (Boosted Odds)
         case 'Same Random Weapon':
@@ -94,7 +92,7 @@ def spin_function(ctx: Union[interactions.SlashContext, prefixed_commands.Prefix
             for player in players:
                 weapons += f'**__{randomWeapon()}__**'
             embed = interactions.Embed(title='Random Weapon Mirror', color=_COLOR,
-                                    description=f'Each team must select which team member uses each of the following weapons:\n\n{'\n'.join(weapons)}')
+                                    description=f'Each team must select which team member uses each of the following weapons:\n\n' + {'\n'.join(weapons)})
 
         # Same Random Sub (Boosted Odds)
         case 'Same Random Sub':
@@ -194,6 +192,18 @@ def spin_function(ctx: Union[interactions.SlashContext, prefixed_commands.Prefix
         # Double Down (Boosted Odds)
         case 'Double Down':
             embed = doubledown_function(ctx) # pass context into doubledown_function
+
+        # One For All (Normal Odds)
+        case 'One For All':
+            embed = interactions.Embed(title='One For All', color=_COLOR,
+                                       description=f'Each player on each team selects the following gear item for their team based on their lobby position. All players on the team must use the same gear. You may use any gear ability you like.')
+            gear_slot = ['Weapon', 'Headgear', 'Body', 'Shoes']
+            teams = ['Alpha', 'Bravo']
+            players = 4
+            for team_name in teams:
+                for player in range(players):
+                    msg = f'{gear_slot[player]}' + '\n' if player < players-1 else ''
+                    embed.add_field(name=f'Team {team_name}:', value=msg, inline=True)
 
         # Indicates that something has gone wrong
         case _:

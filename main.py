@@ -66,7 +66,7 @@ def spin_function(ctx: Union[interactions.SlashContext, prefixed_commands.Prefix
                                         description=f'Each player in the lobby must use the weapon corresponding with their slot in the team menu.')
             teams = ['Alpha', 'Bravo']
             for team_name in teams:
-                weapons = [i for randomWeapon() in range(4)]
+                weapons = [randomWeapon() for _ in range(4)]
                 msg =  '\n'.join(weapons)
                 embed.add_field(name=f'Team {team_name}:', value=msg, inline=True)
 

@@ -399,7 +399,7 @@ def modifier_function(mod: str = ''):
 
 
 def doubledown_function():
-    mod1, mod2 = '', ''
+    mod1, mod2 = '',''
     # Defines the groups that double down may select from
     groupA = ['Randomized Weapons', 'Same Random Weapon', 'Two Random Weapons', 'Random Weapon Mirror', 'Same Random Sub', 'Same Random Special', 'Same Random Weapon Class', 'Enemy Comp Swap', 'Team Comp Swap', 'One For All']
     groupB = ['Turf War', 'Trade a Player', 'Deathmatch', 'Rubberband Map Pick', 'Death', 'Permanent Random Weapon', 'Besties', 'Sacrificial Specials', 'Randomized Gear']
@@ -409,10 +409,10 @@ def doubledown_function():
     chance = random.randint(1, 5)
 
     if chance > 1:
-        mod1 = random.choose(groupA)
-        mod2 = random.choose(groupB)
+        mod1 = random.choice(groupA)
+        mod2 = random.choice(groupB)
     else:
-        mod1 = random.choose(groupC)
+        mod1 = random.choice(groupC)
         mod2 = mod1
 
     embed = interactions.Embed(title='Double Down', color=_COLOR, description='')
@@ -420,11 +420,11 @@ def doubledown_function():
     # Checks if mod selection is in group C
     if mod1 != mod2:
         # If mod selection is not in group C, process both mods
-        embed.add_field(name=mod1, value=modifier_function(mod1))
-        embed.add_field(name=mod2, value=modifier_function(mod2))
+        embed.add_field(name=mod1, value=getattr(modifier_function(mod1), 'description'))
+        embed.add_field(name=mod2, value=getattr(modifier_function(mod2), 'description'))
 
     else:
-        embed.add_field(name=mod1, value=modifier_function(mod1))
+        embed.add_field(name=mod1, value=getattr(modifier_function(mod1), 'description'))
     return embed
 
 

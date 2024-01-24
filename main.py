@@ -65,11 +65,10 @@ def spin_function(ctx: Union[interactions.SlashContext, prefixed_commands.Prefix
             embed = interactions.Embed(title='Randomized Weapons', color=_COLOR,
                                         description=f'Each player in the lobby must use the weapon corresponding with their slot in the team menu.')
             teams = ['Alpha', 'Bravo']
-            players = 4
             for team_name in teams:
-                for player in range(players):
-                    msg = f'{randomWeapon()}' + '\n' if player < players-1 else ''
-                    embed.add_field(name=f'Team {team_name}:', value=msg, inline=True)
+                weapons = [i for randomWeapon() in range(4)]
+                msg =  '\n'.join(weapons)
+                embed.add_field(name=f'Team {team_name}:', value=msg, inline=True)
 
         # Same Random Weapon (Boosted Odds)
         case 'Same Random Weapon':
@@ -197,13 +196,11 @@ def spin_function(ctx: Union[interactions.SlashContext, prefixed_commands.Prefix
         case 'One For All':
             embed = interactions.Embed(title='One For All', color=_COLOR,
                                        description=f'Each player on each team selects the following gear item for their team based on their lobby position. All players on the team must use the same gear. You may use any gear ability you like.')
-            gear_slot = ['Weapon', 'Headgear', 'Body', 'Shoes']
+            gear_slot = ['Weapon', 'Headgear', 'Clothing', 'Shoes']
             teams = ['Alpha', 'Bravo']
-            players = 4
             for team_name in teams:
-                for player in range(players):
-                    msg = f'{gear_slot[player]}' + '\n' if player < players-1 else ''
-                    embed.add_field(name=f'Team {team_name}:', value=msg, inline=True)
+                msg = '\n'.join(gear_slot)
+                embed.add_field(name=f'Team {team_name}:', value=msg, inline=True)
 
         # Indicates that something has gone wrong
         case _:

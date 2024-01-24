@@ -9,17 +9,37 @@ from typing import Union
 bot = interactions.Client(token=os.environ.get('BOT_TOKEN'))
 prefixed_commands.setup(bot)
 
-# Creates list containing the game modifiers
-modifiers = ['Randomized Weapons', 'Randomized Weapons', 'Same Random Weapon', 'Same Random Weapon',
-             'Two Random Weapons', 'Two Random Weapons', 'Random Weapon Mirror', 'Random Weapon Mirror',
-             'Same Random Sub', 'Same Random Sub', 'Same Random Special', 'Same Random Special',
-             'Same Random Weapon Class', 'Same Random Weapon Class', 'Enemy Comp Swap', 'Team Comp Swap',
-             'Force at Gunpoint', 'Turf War', 'Trade a Player', 'Deathmatch',
-             'Rubberband Map Pick', 'Rubberband Modifier Pick', 'Permanent Random Weapon', 'Death',
-             'Sacrificial Specials', 'Randomized Gear', 'Besties', 'Killer Wail Kerfuffle', 'Secret Agents',
-             'Bubble Bath', 'Double Down', 'Double Down']
+# Creates list containing the game modifier_pool
+modifier_pool = [
+    'Randomized Weapons', 'Randomized Weapons',
+    'Same Random Weapon', 'Same Random Weapon',
+    'Two Random Weapons', 'Two Random Weapons',
+    'Random Weapon Mirror', 'Random Weapon Mirror',
+    'Same Random Sub', 'Same Random Sub',
+    'Same Random Special', 'Same Random Special',
+    'Same Random Weapon Class', 'Same Random Weapon Class',
+    'Enemy Comp Swap', 'Team Comp Swap',
+    'Force at Gunpoint',
+    'Turf War',
+    'Trade a Player',
+    'Deathmatch',
+    'Rubberband Map Pick',
+    'Rubberband Modifier Pick',
+    'Permanent Random Weapon',
+    'Death',
+    'Sacrificial Specials',
+    'Randomized Gear',
+    'Besties',
+    'Killer Wail Kerfuffle',
+    'Secret Agents',
+    'Bubble Bath',
+    'Double Down', 'Double Down',
+    ]
 
-embed = interactions.Embed(title='Empty', color=0x83eeff, description=f'Empty embed. Something has gone wrong.')
+_COLOR = 0x83eeff
+_COLOR_ERROR = 0xff0000
+
+embed = interactions.Embed(title='Empty', color=_COLOR_ERROR, description=f'Empty embed. Something has gone wrong.')
 
 @bot.event
 async def on_ready():
@@ -33,376 +53,154 @@ async def spin(ctx: interactions.SlashContext):
 @prefixed_commands.prefixed_command(name='spin')
 async def spin_prefix(ctx: prefixed_commands.PrefixedContext):
     await ctx.send(embeds=spin_function(ctx))
+
 def spin_function(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
-    # Selects a random index of the 'modifiers' dictionary
-    mod = modifiers[random.randrange(0, len(modifiers))]
+    # Selects a random index of the 'modifier_pool' dictionary
+    mod = modifier_pool[random.randrange(0, len(modifier_pool))]
 
-    # Randomized Weapons (Boosted Odds)
-    if mod == 'Randomized Weapons':
-        embed = interactions.Embed(title='Randomized Weapons', color=0x83eeff,
-                                   description=f'Each player in the lobby must use the weapon corresponding '
-                                               f'with their slot in the team menu.')
-        x = 1
-        y = 4
-        msg = ''
-        while x < 3:
-            while y > 0:
-                if y > 1:
-                    weapon = randomWeapon()
-                    msg += f'{weapon}\n'
-                    y -= 1
-                else:
-                    weapon = randomWeapon()
-                    msg += f'{weapon}'
-                    y -= 1
-            if x == 1:
-                embed.add_field(name=f'Team Alpha:', value=msg, inline=True)
-            if x == 2:
-                embed.add_field(name=f'Team Bravo:', value=msg, inline=True)
-            y = 4
+    match mod:
+        # Randomized Weapons (Boosted Odds)
+        case 'Randomized Weapons':
+            embed = interactions.Embed(title='Randomized Weapons', color=_COLOR,
+                                        description=f'Each player in the lobby must use the weapon corresponding with their slot in the team menu.')
+            teams = ['Alpha', 'Bravo']
+            players = 4
             msg = ''
-            x += 1
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Same Random Weapon (Boosted Odds)
-    elif mod == 'Same Random Weapon':
-
-        weapon = randomWeapon()
-        embed = interactions.Embed(title='Same Random Weapon', color=0x83eeff,
-                                   description=f'All players must use the __**{weapon}**__ for this game.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Two Random Weapons (Boosted Odds)
-    elif mod == 'Two Random Weapons':
-
-        weapon1 = randomWeapon()
-        weapon2 = randomWeapon()
-        while weapon2 == weapon1:
-            weapon2 = randomWeapon()
-        embed = interactions.Embed(title='Two Random Weapons', color=0x83eeff,
-                                   description=f'Every player may select between __**{weapon1}**__ or __**{weapon2}**__. There must be at least one of each weapon on both teams.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Random Weapon Mirror (Boosted Odds)
-    elif mod == 'Random Weapon Mirror':
-
-        x = 0
-        weapons = ''
-        while x < 4:
-            weapons += '**__'
-            weapons += randomWeapon()
-            weapons += '__**\n'
-            x += 1
-        embed = interactions.Embed(title='Random Weapon Mirror', color=0x83eeff,
-                                   description=f'Each team must select which team member uses each of the following weapons:\n\n{weapons}')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Same Random Sub (Boosted Odds)
-    elif mod == 'Same Random Sub':
-
-        sub = randomSub()
-        embed = interactions.Embed(title='Same Random Sub', color=0x83eeff,
-                                   description=f'All players must use a weapon with __**{sub}**__ for this game. The main abilities on every player’s gear can only be Sub Saver or Sub Power.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Same Random Special (Boosted Odds)
-    elif mod == 'Same Random Special':
-
-        special = randomSpecial()
-        embed = interactions.Embed(title='Same Random Special', color=0x83eeff,
-                                   description=f'All players must use a weapon with __**{special}**__ for this game. The main abilities on every player’s gear can only be Special Charge or Special Power.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Same Random Weapon Class (Boosted Odds)
-    elif mod == 'Same Random Weapon Class':
-
-        randClass = randomClass()
-        embed = interactions.Embed(title='Same Random Weapon Class', color=0x83eeff,
-                                   description=f'All players must use a weapon that is part of the __**{randClass}**__ class for this game. No duplicate weapons are allowed.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Trade Enemy Weapons (Normal Odds)
-    elif mod == 'Enemy Comp Swap':
-
-        embed = interactions.Embed(title='Enemy Comp Swap', color=0x83eeff,
-                                   description=f'Both teams must use the enemy’s weapons from the previous game. If this is game 1, roll a new modifier. If you roll this after “Trade a Player,” team comps are based on the scoreboard, not the traded players.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Trade Team Weapons (Normal Odds)
-    elif mod == 'Team Comp Swap':
-
-        embed = interactions.Embed(title='Team Comp Swap', color=0x83eeff,
-                                   description=f'Both teams must use the same weapons from the previous game, but they must swap which player uses each weapon. If this is game 1, roll a new modifier. If you roll this after “Trade a Player,” team comps are based on the scoreboard, not the traded players.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Force at Gunpoint (Normal Odds)
-    elif mod == 'Force at Gunpoint':
-
-        embed = interactions.Embed(title='Force at Gunpoint', color=0x83eeff,
-                                   description=f'Each team must select two specific players on the opposite team. Those players must use the weapons that the other team told them to use.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Turf War (Normal Odds)
-    elif mod == 'Turf War':
-
-        embed = interactions.Embed(title='Turf War', color=0x83eeff,
-                                   description=f'Play Turf War instead of the mode listed on the maplist.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Trade a Player (Normal Odds)
-    elif mod == 'Trade a Player':
-
-        embed = interactions.Embed(title='Trade a Player', color=0x83eeff,
-                                   description=f'Both teams must trade one of their players to the other team. Your team will choose which teammate to send. The traded teammate can sabotage the enemy team and relay information over VC. Idling is not allowed. Return teammates after the game.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Deathmatch (Normal Odds)
-    elif mod == 'Deathmatch':
-
-        embed = interactions.Embed(title='Deathmatch', color=0x83eeff,
-                                   description=f'Select Turf War on the current round’s map. The team with the most total kills+assists will win the match.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Rubberband Map Pick (Normal Odds)
-    elif mod == 'Rubberband Map Pick':
-
-        embed = interactions.Embed(title='Rubberband Map Pick', color=0x83eeff,
-                                   description=f'The team with less points changes the current map/mode to one of their choosing. If both teams are tied, roll a new modifier.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Rubberband Modifier Pick (Normal Odds)
-    elif mod == 'Rubberband Modifier Pick':
-
-        embed = interactions.Embed(title='Rubberband Modifier Pick', color=0x83eeff,
-                                   description=f'The team with less points chooses the modifier for this round. If both teams are tied, roll a new modifier. You cannot select Double Down.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Permanent Random Weapon (Normal Odds)
-    elif mod == 'Permanent Random Weapon':
-
-        embed = interactions.Embed(title='Permanent Random Weapon', color=0x83eeff,
-                                   description=f'Roll a number from 1 to 4. On each team, the corresponding player will roll a random weapon separately. They must use this weapon for the rest of the set, regardless of what other modifiers say.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Death (Normal Odds)
-    elif mod == 'Death':
-
-        embed = interactions.Embed(title='Death', color=0x83eeff,
-                                   description=f'Determine the player with the highest kill count on both teams. Those players will be eliminated from the round. This game will be played as a 3v3.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Sacrificial Specials (Normal Odds)
-    elif mod == 'Sacrificial Specials':
-
-        embed = interactions.Embed(title='Sacrificial Specials', color=0x83eeff,
-                                   description=f'If a player uses a special during this game, they must jump off the map after the user’s role in using said special is complete. Any weapons are allowed.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Randomized Gear (Normal Odds)
-    elif mod == 'Randomized Gear':
-
-        headgear = randomHeadgearAbility()
-        clothing = randomClothingAbility()
-        shoes = randomShoesAbility()
-
-        embed = interactions.Embed(title='Randomized Gear', color=0x83eeff,
-                                   description=f'The main abilities of your gear must match:\nHeadgear - __**{headgear}**__\nClothing - __**{clothing}**\n__Shoes - __**{shoes}**__')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Besties (Normal Odds)
-    elif mod == 'Besties':
-
-        embed = interactions.Embed(title='Besties', color=0x83eeff,
-                                   description=f'Every player on your team must wear the same gear pieces. There are no restrictions on gear abilities.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Killer Wail Kerfuffle (Normal Odds)
-    elif mod == 'Killer Wail Kerfuffle':
-        embed = interactions.Embed(title='Killer Wail Kerfuffle', color=0x83eeff,
-                                   description=f'Vanilla Splattershot Nova or Vanilla Inkbrush must be selected by all players. This game will be played on Eeltail Alley TC.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Secret Agents (Normal Odds)
-    elif mod == 'Secret Agents':
-
-        embed = interactions.Embed(title='Secret Agents', color=0x83eeff,
-                                   description=f'Every player must select Undercover Brella. This game will be played on Wahoo World SZ.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Bubble Bath (Normal Odds)
-    elif mod == 'Bubble Bath':
-
-        embed = interactions.Embed(title='Bubble Bath', color=0x83eeff,
-                                   description=f'Every player must select Vanilla Bloblobber, except for one player on each team who may select Bloblobber Deco. This game will be played on Inkblot Art Academy RM.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
-    # Double Down (Boosted Odds)
-    elif mod == 'Double Down':
-
-        # Generates double down modifiers
-        mod1, mod2 = doubleDown()
-
-        # Checks to see if modifiers are the same, if they are then group C was rolled
-        if mod1 != mod2:
-
-            if mod1 == 'Randomized Weapons':
-                embed = interactions.Embed(title='Randomized Weapons', color=0x83eeff,
-                                           description=f'Each player in the lobby must use the weapon corresponding with their slot in the team menu.')
-                x = 1
-                y = 4
+            for team_name in teams:
+                for player in range(players)
+                    msg += f'{randomWeapon()}' + '\n' if player > 1 else ''
+                    embed.add_field(name=f'Team {team_name}:', value=msg, inline=True)
                 msg = ''
-                while x < 3:
-                    while y > 0:
-                        if y > 1:
-                            weapon = randomWeapon()
-                            msg += f'{weapon}\n'
-                            y -= 1
-                        else:
-                            weapon = randomWeapon()
-                            msg += f'{weapon}'
-                            y -= 1
-                    if x == 1:
-                        embed.add_field(name=f'Team Alpha:', value=msg, inline=True)
-                    if x == 2:
-                        embed.add_field(name=f'Team Bravo:', value=msg, inline=True)
-                    y = 4
-                    msg = ''
-                    x += 1
-                embed.set_author(name='DOUBLE DOWN')
+            embed.set_author(name='THE WHEEL HAS SPOKEN')
 
-            elif mod1 == 'Same Random Weapon':
-                weapon = randomWeapon()
-                embed = interactions.Embed(title='Same Random Weapon', color=0x83eeff,
-                                           description=f'All players must use the __**{weapon}**__ for this game.')
-                embed.set_author(name='DOUBLE DOWN')
+        # Same Random Weapon (Boosted Odds)
+        case 'Same Random Weapon':
+            embed = interactions.Embed(title='Same Random Weapon', color=_COLOR,
+                                   description=f'All players must use the __**{randomWeapon()}**__ for this game.')
 
-            elif mod1 == 'Two Random Weapons':
-
-                weapon1 = randomWeapon()
+        # Two Random Weapons (Boosted Odds)
+        case 'Two Random Weapons':
+            weapon1 = randomWeapon()
+            weapon2 = randomWeapon()
+            while weapon2 == weapon1:
                 weapon2 = randomWeapon()
-                while weapon2 == weapon1:
-                    weapon2 = randomWeapon()
-                embed = interactions.Embed(title='Same Random Weapon', color=0x83eeff,
-                                           description=f'Every player may select between __**{weapon1}**__ or __**{weapon2}**__. There must be at least one of each weapon on both teams.')
-                embed.set_author(name='DOUBLE DOWN')
+            embed = interactions.Embed(title='Two Random Weapons', color=_COLOR,
+                                    description=f'Every player may select between __**{weapon1}**__ or __**{weapon2}**__. There must be at least one of each weapon on both teams.')
 
-            elif mod1 == 'Same Random Sub':
-                sub = randomSub()
-                embed = interactions.Embed(title='Same Random Sub', color=0x83eeff,
-                                           description=f'All players must use a weapon with __**{sub}**__ for this game. The main abilities on every player’s gear can only be Sub Saver or Sub Power.')
-                embed.set_author(name='DOUBLE DOWN')
+        # Random Weapon Mirror (Boosted Odds)
+        case 'Random Weapon Mirror':
+            players = 0
+            weapons = []
+            for player in players:
+                weapons += f'**__{randomWeapon()}__**'
+            embed = interactions.Embed(title='Random Weapon Mirror', color=_COLOR,
+                                    description=f'Each team must select which team member uses each of the following weapons:\n\n{'\n'.join(weapons)}')
 
-            elif mod1 == 'Same Random Special':
-                special = randomSpecial()
-                embed = interactions.Embed(title='Same Random Special', color=0x83eeff,
-                                           description=f'All players must use a weapon with __**{special}**__ for this game. The main abilities on every player’s gear can only be Special Charge or Special Power.')
-                embed.set_author(name='DOUBLE DOWN')
+        # Same Random Sub (Boosted Odds)
+        case 'Same Random Sub':
+            embed = interactions.Embed(title='Same Random Sub', color=_COLOR,
+                                   description=f'All players must use a weapon with __**{randomSub()}**__ for this game.')
 
-            elif mod1 == 'Same Random Weapon Class':
-                randClass = randomClass()
-                embed = interactions.Embed(title='Same Random Weapon Class', color=0x83eeff,
-                                           description=f'All players must use a weapon that is part of the __**{randClass}**__ class for this game. No duplicate weapons are allowed.')
-                embed.set_author(name='DOUBLE DOWN')
+        # Same Random Special (Boosted Odds)
+        case 'Same Random Special':
+            embed = interactions.Embed(title='Same Random Special', color=_COLOR,
+                                   description=f'All players must use a weapon with __**{randomSpecial()}**__ for this game.')
 
-            elif mod1 == 'Enemy Comp Swap':
-                embed = interactions.Embed(title='Enemy Comp Swap', color=0x83eeff,
-                                           description=f'Both teams must use the enemy’s weapons from the previous game. If this is game 1, roll a new pair of modifiers. If you roll this after “Trade a Player,” team comps are based on the scoreboard, not the traded players.')
-                embed.set_author(name='DOUBLE DOWN')
+        # Same Random Weapon Class (Boosted Odds)
+        case 'Same Random Weapon Class':
+            embed = interactions.Embed(title='Same Random Weapon Class', color=_COLOR,
+                                   description=f'All players must use a weapon that is part of the __**{randomClass()}**__ class for this game. No duplicate weapons are allowed.')
 
-            elif mod1 == 'Team Comp Swap':
-                embed = interactions.Embed(title='Team Comp Swap', color=0x83eeff,
-                                           description=f'Both teams must use the same weapons from the previous game, but they must swap which player uses each weapon. If this is game 1, roll a new pair of modifiers. If you roll this after “Trade a Player,” team comps are based on the scoreboard, not the traded players.')
-                embed.set_author(name='DOUBLE DOWN')
+        # Trade Enemy Weapons (Normal Odds)
+        case 'Enemy Comp Swap':
+            embed = interactions.Embed(title='Enemy Comp Swap', color=_COLOR,
+                                   description=f'Both teams must use the enemy’s weapons from the previous game.\n\n*If this is game 1, roll a new modifier. If you roll this after “Trade a Player,” team comps are based on the scoreboard, not the traded players.*')
 
-            elif mod1 == 'Random Weapon Mirror':
-                x = 0
-                weapons = ''
-                while x < 4:
-                    weapons += '**__'
-                    weapons += randomWeapon()
-                    weapons += '__**\n'
-                    x += 1
-                embed = interactions.Embed(title='Random Weapon Mirror', color=0x83eeff,
-                                           description=f'Both teams must select which team member uses each of the following weapons:\n\n{weapons}')
-                embed.set_author(name='DOUBLE DOWN')
+        # Trade Team Weapons (Normal Odds)
+        case 'Team Comp Swap':
+            embed = interactions.Embed(title='Team Comp Swap', color=_COLOR,
+                                   description=f'Both teams must use the same weapons from the previous game, but they must swap which player uses each weapon.\n\n*If this is game 1, roll a new modifier. If you roll this after “Trade a Player,” team comps are based on the scoreboard, not the traded players.*')
 
-            elif mod1 == 'Least Favorites':
-                embed = interactions.Embed(title='Least Favorites', color=0x83eeff,
-                                           description=f'Roll a number from 1 to 8. Have the corresponding player in the lobby find out what their least used weapon is according to Splatnet. Determine this using the “Weapons” tab, and find the weapon lowest on the “Most Used” list that still has at least 1 Win. All players must use that weapon.')
-                embed.set_author(name='DOUBLE DOWN')
+        # Force at Gunpoint (Normal Odds)
+        case 'Force at Gunpoint':
+            embed = interactions.Embed(title='Force at Gunpoint', color=_COLOR,
+                                   description=f'Each team must select two specific players on the opposite team. Those players must use the weapons that the other team told them to use.')
 
-            if mod2 == 'Turf War':
-                embed.add_field(name='Turf War', value=f'Play Turf War instead of the mode listed on the maplist.')
+        # Turf War (Normal Odds)
+        case 'Turf War':
+            embed = interactions.Embed(title='Turf War', color=_COLOR,
+                                   description=f'Play Turf War instead of the mode listed on the maplist.')
 
-            elif mod2 == 'Trade a Player':
-                embed.add_field(name='Trade a Player',
-                                value=f'Both teams must trade one of their players to the other team. Your team will choose which teammate to send. The traded teammate can sabotage the enemy team and relay information over VC. Idling is not allowed. Return teammates after the game.')
+        # Trade a Player (Normal Odds)
+        case 'Trade a Player':
+            embed = interactions.Embed(title='Trade a Player', color=_COLOR,
+                                   description=f'Both teams must trade one of their players to the other team. Your team will choose which teammate to send. The traded teammate can sabotage the enemy team and relay information over VC. Idling is not allowed. Return teammates after the game.')
 
-            elif mod2 == 'Deathmatch':
-                embed.add_field(name='Deathmatch',
-                                value=f'Select Turf War on the current round’s map. The team with the most total kills will win the match.')
+        # Deathmatch (Normal Odds)
+        case 'Deathmatch':
+            embed = interactions.Embed(title='Deathmatch', color=_COLOR,
+                                   description=f'Select Turf War on the current round’s map. The team with the most total kills+assists will win the match.')
 
-            elif mod2 == 'Rubberband Map Pick':
-                embed.add_field(name='Rubberband Map Pick',
-                                value=f'The team with less points changes the current map/mode to one of their choosing. If both teams are tied, roll a new pair of modifiers.')
+        # Rubberband Map Pick (Normal Odds)
+        case 'Rubberband Map Pick':
+            embed = interactions.Embed(title='Rubberband Map Pick', color=_COLOR,
+                                   description=f'The team with less points changes the current map/mode to one of their choosing.\n\n*If both teams are tied, roll a new modifier.*')
 
-            elif mod2 == 'Death':
-                embed.add_field(name='Death',
-                                value=f'Determine the player with the highest kill count on both teams. Those players will be eliminated from the round. This game will be played as a 3v3.')
+        # Rubberband Modifier Pick (Normal Odds)
+        case 'Rubberband Modifier Pick':
+            embed = interactions.Embed(title='Rubberband Modifier Pick', color=_COLOR,
+                                   description=f'The team with less points chooses the modifier for this round.\n\n*If both teams are tied, roll a new modifier. You cannot select Double Down.*')
 
-            elif mod2 == 'Permanent Random Weapon':
-                embed.add_field(name='Permanent Random Weapon',
-                                value=f'Roll a number from 1 to 4. After following the other weapon selection rule, the rolled number slot on each team must use their weapon for the remainder of the set regardless of what other modifiers say.')
+        # Permanent Random Weapon (Normal Odds)
+        case 'Permanent Random Weapon':
+            embed = interactions.Embed(title='Permanent Random Weapon', color=_COLOR,
+                                   description=f'Roll a number from 1 to 4. On each team, the corresponding player will roll a random weapon separately. They must use this weapon for the rest of the set, regardless of what other modifiers say.')
 
-            elif mod2 == 'Besties':
-                embed.add_field(name='Besties',
-                                value=f'Every player on your team must wear the same gear pieces. There are no restrictions on gear abilities.')
+        # Death (Normal Odds)
+        case 'Death':
+            embed = interactions.Embed(title='Death', color=_COLOR,
+                                   description=f'Determine the player with the highest kill count on both teams. Those players will be eliminated from the round. This game will be played as a 3v3.')
 
-            elif mod2 == 'Sacrificial Specials':
-                embed.add_field(name='No Specials',
-                                value=f'If a player uses a special during this game, they must jump off the map after the user’s role in using said special is complete. Any weapons are allowed.')
+        # Sacrificial Specials (Normal Odds)
+        case 'Sacrificial Specials':
+            embed = interactions.Embed(title='Sacrificial Specials', color=_COLOR,
+                                   description=f'If a player uses a special during this game, they must jump off the map after the user’s role in using said special is complete. *Any weapons are allowed.*')
 
-            elif mod2 == 'Randomized Gear':
-                headgear = randomHeadgearAbility()
-                clothing = randomClothingAbility()
-                shoes = randomShoesAbility()
-                embed.add_field(name='Randomized Gear',
-                                value=f'The main abilities of your gear must match:\nHeadgear - __**{headgear}**__\nClothing - __**{clothing}**\n__Shoes - __**{shoes}**__')
+        # Randomized Gear (Normal Odds)
+        case 'Randomized Gear':
+            embed = interactions.Embed(title='Randomized Gear', color=_COLOR,
+                                   description=f'The main abilities of your gear must match:\nHeadgear - __**{randomHeadgearAbility()}**__\nClothing - __**{randomClothingAbility()}**\n__Shoes - __**{randomShoesAbility()}**__')
 
-        else:
+        # Besties (Normal Odds)
+        case 'Besties':
+            embed = interactions.Embed(title='Besties', color=_COLOR,
+                                   description=f'Every player on your team must wear the same gear pieces. There are no restrictions on gear abilities.')
 
-            if mod1 == 'Same Random Weapon':
-                weapon1 = randomWeapon()
-                weapon2 = randomWeapon()
-                embed = interactions.Embed(title='Same Random Weapon', color=0x83eeff,
-                                           description=f'All players must use the __**{weapon1}**__ or __**{weapon2}**__ for this game.')
+        # Killer Wail Kerfuffle (Normal Odds)
+        case 'Killer Wail Kerfuffle':
+            embed = interactions.Embed(title='Killer Wail Kerfuffle', color=_COLOR,
+                                   description=f'Vanilla Splattershot Nova or Vanilla Inkbrush must be selected by all players. This game will be played on Eeltail Alley TC.')
 
-            elif mod1 == 'Same Random Sub':
-                sub1 = randomSub()
-                sub2 = randomSub()
-                embed = interactions.Embed(title='Same Random Sub', color=0x83eeff,
-                                           description=f'All players must use a weapon with __**{sub1}**__ or __**{sub2}**__ for this game. The main abilities on every player’s gear can only be Sub Saver or Sub Power.')
+        # Secret Agents (Normal Odds)
+        case 'Secret Agents':
+            embed = interactions.Embed(title='Secret Agents', color=_COLOR,
+                                   description=f'Every player must select Undercover Brella. This game will be played on Wahoo World SZ.')
 
-            elif mod1 == 'Same Random Special':
-                special1 = randomSpecial()
-                special2 = randomSpecial()
-                embed = interactions.Embed(title='Same Random Special', color=0x83eeff,
-                                           description=f'All players must use the __**{special1}**__ or __**{special2}**__ for this game. The main abilities on every player’s gear can only be Special Charge or Special Power.')
+        # Bubble Bath (Normal Odds)
+        case 'Bubble Bath':
+            embed = interactions.Embed(title='Bubble Bath', color=_COLOR,
+                                   description=f'Every player must select Vanilla Bloblobber, except for one player on each team who may select Bloblobber Deco. This game will be played on Inkblot Art Academy RM.')
 
-            elif mod1 == 'Same Random Weapon Class':
-                class1 = randomClass()
-                class2 = randomClass()
-                embed = interactions.Embed(title='Same Random Weapon Class', color=0x83eeff,
-                                           description=f'All players must use a weapon that is part of the __**{class1}**__ class or __**{class2}**__ class for this game. No duplicate weapons are allowed.')
+        # Double Down (Boosted Odds)
+        case 'Double Down':
+            embed = doubledown_function(ctx) # pass context into doubledown_function
 
-        embed.set_author(name='DOUBLE DOWN')
+        # Indicates that something has gone wrong
+        case _:
+            embed = interactions.Embed(title='ERROR: INVALID ROLL', color=_COLOR_ERROR,
+                                   description=f'Something has gone wrong. Please try again. If the error persists, ping a TO.')
 
-    # Indicates that something has gone wrong
-    else:
-        embed = interactions.Embed(title='ERROR: INVALID ROLL', color=0x83eeff,
-                                   description=f'Something has gone wrong. Please ping or DM <@371465781260845058> to see what went wrong.')
-        embed.set_author(name='THE WHEEL HAS SPOKEN')
-
+    embed.set_author(name='DOUBLE DOWN' if mod == 'Double Down' else 'THE WHEEL HAS SPOKEN')
     embed.set_footer(text='')
     return embed
 
@@ -504,7 +302,7 @@ async def Class_prefix(ctx: Union[interactions.SlashContext, prefixed_commands.P
 async def special(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
     special = randomSpecial()
 
-    # Selects a random index of the 'modifiers' dictionary
+    # Selects a random index of the 'modifier_pool' dictionary
     embed = interactions.Embed(title='Random Special:', color=0x83eeff, description=f'{special}')
     embed.set_footer(text='')
     await ctx.send(embeds=embed)
@@ -513,7 +311,7 @@ async def special(ctx: Union[interactions.SlashContext, prefixed_commands.Prefix
 async def special_prefix(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
     special = randomSpecial()
 
-    # Selects a random index of the 'modifiers' dictionary
+    # Selects a random index of the 'modifier_pool' dictionary
     embed = interactions.Embed(title='Random Special:', color=0x83eeff, description=f'{special}')
     embed.set_footer(text='')
     await ctx.send(embeds=embed)
@@ -576,7 +374,7 @@ def mapList_function(ctx: Union[interactions.SlashContext, prefixed_commands.Pre
 
 
 # Defines the args and name of the 'doubledown' command
-@interactions.slash_command(name='doubledown', description='Generates 2 random modifiers.')
+@interactions.slash_command(name='doubledown', description='Generates 2 random modifier_pool.')
 async def doubledown(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
     await ctx.send(embed=doubledown_function(ctx))
 
@@ -585,7 +383,7 @@ async def doubledown_prefix(ctx: Union[interactions.SlashContext, prefixed_comma
     await ctx.send(embed=doubledown_function(ctx))
 
 def doubledown_function(ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]):
-    # Generates two modifiers
+    # Generates two modifier_pool
     mod1, mod2 = doubleDown()
 
     # Checks if
@@ -699,7 +497,7 @@ def doubledown_function(ctx: Union[interactions.SlashContext, prefixed_commands.
 
         elif mod2 == 'Permanent Random Weapon':
             embed.add_field(name='Permanent Random Weapon',
-                            value=f'Follow the rule of the other weapon selection modifier. After selecting the weapon as required, you cannot change weapons for the remainder of the set, regardless of what other modifiers say.')
+                            value=f'Follow the rule of the other weapon selection modifier. After selecting the weapon as required, you cannot change weapons for the remainder of the set, regardless of what other modifier_pool say.')
 
         elif mod2 == 'Besties':
             embed.add_field(name='Besties',

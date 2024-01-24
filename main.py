@@ -2,20 +2,24 @@
 import interactions
 from interactions.ext import prefixed_commands
 # libraries included with Python
-import itertools
 import os
 import random
 #from typing import Union
 # ctx: Union[interactions.SlashContext, prefixed_commands.PrefixedContext]
 
-# Initializes the bot
-bot = interactions.Client(token=os.environ.get('BOT_TOKEN'))
-prefixed_commands.setup(bot)
-
+# Constants & global variables
 _COLOR = 0x83eeff
 _COLOR_ERROR = 0xff0000
 
+
+
+
 embed = interactions.Embed(title='Empty', color=_COLOR_ERROR, description=f'Empty embed. Something has gone wrong.')
+
+
+# Initializes the bot
+bot = interactions.Client(token=os.environ.get('BOT_TOKEN'))
+prefixed_commands.setup(bot)
 
 @bot.event
 async def on_ready():
@@ -122,12 +126,12 @@ async def special_prefix(ctx: prefixed_commands.PrefixedContext):
 @interactions.slash_option(name='amount', description='The amount of maps you would like to generate.', opt_type=interactions.OptionType.INTEGER,
                      required=True)
 async def maplist(ctx: interactions.SlashContext, amount: int):
-    await ctx.send(embeds=mapList_function(amount))
+    await ctx.send(embeds=maplist_function(amount))
 
 
 @prefixed_commands.prefixed_command(name='maplist')
 async def maplist_prefix(ctx: prefixed_commands.PrefixedContext, amount: int):
-    await ctx.send(embeds=mapList_function(amount))
+    await ctx.send(embeds=maplist_function(amount))
 
 
 # Defines the args and name of the 'doubledown' command

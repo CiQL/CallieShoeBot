@@ -243,10 +243,7 @@ def modifier_function(mod: str = ''):
 
         # Random Weapon Mirror (Boosted Odds)
         case 'Random Weapon Mirror':
-            players = 0
-            weapons = []
-            for player in players:
-                weapons += f'**__{randomWeapon()}__**'
+            weapons = [f'**__{randomWeapon()}__**' for _ in range(4)]
             embed = interactions.Embed(title='Random Weapon Mirror', color=_COLOR,
                                     description=f'Each team must select which team member uses each of the following weapons:\n\n' + {'\n'.join(weapons)})
 

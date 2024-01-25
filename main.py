@@ -176,6 +176,13 @@ async def Help_prefix(ctx: prefixed_commands.PrefixedContext):
 
 
 # HELPER FUNCTIONS
+def ensure_two_different(randomFunction):
+    one = randomFunction()
+    two = randomFunction()
+    while two == one:
+        two = randomFunction()
+    return (one, two)
+
 def maplist_function(amount: int):
     maps = [
         'Scorch Gorge',
@@ -234,10 +241,7 @@ def modifier_function(mod: str = ''):
 
         # Two Random Weapons (Boosted Odds)
         case 'Two Random Weapons':
-            weapon1 = randomWeapon()
-            weapon2 = randomWeapon()
-            while weapon2 == weapon1:
-                weapon2 = randomWeapon()
+            weapon1, weapon2 = ensure_two_different(randomWeapon)
             embed = interactions.Embed(title='Two Random Weapons', color=_COLOR,
                                     description=f'Every player may select between __**{weapon1}**__ or __**{weapon2}**__. There must be at least one of each weapon on both teams.')
 
@@ -264,34 +268,22 @@ def modifier_function(mod: str = ''):
 
                 # Process group C mods (implies both mod1 and mod2 are equivalent)
         case 'Same Random Weapon (DD)':
-            weapon1 = randomWeapon()
-            weapon2 = randomWeapon()
-            while weapon2 == weapon1:
-                weapon2 = randomWeapon()
+            weapon1, weapon2 = ensure_two_different(randomWeapon)
             embed = interactions.Embed(title='Same Random Weapon', color=_COLOR,
                                    description=f'All players must use the __**{weapon1}**__ or __**{weapon2}**__ for this game.')
 
         case 'Same Random Sub (DD)':
-            sub1 = randomSub()
-            sub2 = randomSub()
-            while sub2 == sub1:
-                sub2 = randomSub()
+            sub1, sub2 = ensure_two_different(randomSub)
             embed = interactions.Embed(title='Same Random Sub', color=_COLOR,
                                    description=f'All players must use a weapon with __**{sub1}**__ or __**{sub2}**__ for this game.')
 
         case 'Same Random Special (DD)':
-            special1 = randomSpecial()
-            special2 = randomSpecial()
-            while special2 == special1:
-                special2 = randomSpecial()
+            special1, special2 = ensure_two_different(randomSpecial)
             embed = interactions.Embed(title='Same Random Special', color=_COLOR,
                                    description=f'All players must use the __**{special1}**__ or __**{special2}**__ for this game.')
 
         case 'Same Random Weapon Class (DD)':
-            class1 = randomClass()
-            class2 = randomClass()
-            while class2 == class1:
-                class2 = randomClass()
+            class1, class2 = ensure_two_different(randomClass)
             embed = interactions.Embed(title='Same Random Weapon Class', color=_COLOR,
                                    description=f'All players must use a weapon that is part of the __**{class1}**__ class or __**{class2}**__ class for this game. No duplicate weapons are allowed.')
 
@@ -313,12 +305,12 @@ def modifier_function(mod: str = ''):
         # Turf War (Normal Odds)
         case 'Turf War':
             embed = interactions.Embed(title='Turf War', color=_COLOR,
-                                   description=f'Play Turf War instead of the mode listed on the maplist.')
+                                   description=f'The upcoming game mode is Turf War. *Play Turf War instead of the mode listed on the maplist.*')
 
         # Trade a Player (Normal Odds)
         case 'Trade a Player':
             embed = interactions.Embed(title='Trade a Player', color=_COLOR,
-                                   description=f'Both teams must trade one of their players to the other team. Your team will choose which teammate to send. The traded teammate can sabotage the enemy team and relay information over VC. Idling is not allowed. Return teammates after the game.')
+                                   description=f'Both teams must trade one of their players to the other team. *Your team will choose which teammate to send. The traded teammate can sabotage the enemy team and relay information over VC. Idling is not allowed. Return teammates after the game.*')
 
         # Deathmatch (Normal Odds)
         case 'Deathmatch':
@@ -337,8 +329,9 @@ def modifier_function(mod: str = ''):
 
         # Permanent Random Weapon (Normal Odds)
         case 'Permanent Random Weapon':
+            ordinals = ['first', 'second', 'third', 'fourth']
             embed = interactions.Embed(title='Permanent Random Weapon', color=_COLOR,
-                                   description=f'Roll a number from 1 to 4. On each team, the corresponding player will roll a random weapon separately. They must use this weapon for the rest of the set, regardless of what other modifiers say.')
+                                   description=f'The **{random.choice(ordinals)}** player on each team will roll a random weapon separately. They must use this weapon for the rest of the set, regardless of what other modifiers say.\n\n*This overrides all other modifiers.*')
 
         # Death (Normal Odds)
         case 'Death':
@@ -348,7 +341,7 @@ def modifier_function(mod: str = ''):
         # Sacrificial Specials (Normal Odds)
         case 'Sacrificial Specials':
             embed = interactions.Embed(title='Sacrificial Specials', color=_COLOR,
-                                   description=f'If a player uses a special during this game, they must jump off the map after the user’s role in using said special is complete. *Any weapons are allowed.*')
+                                   description=f'If a player uses a special during this game, they must jump off the map after the user’s role in using said special is complete.')
 
         # Randomized Gear (Normal Odds)
         case 'Randomized Gear':
@@ -363,17 +356,17 @@ def modifier_function(mod: str = ''):
         # Killer Wail Kerfuffle (Normal Odds)
         case 'Killer Wail Kerfuffle':
             embed = interactions.Embed(title='Killer Wail Kerfuffle', color=_COLOR,
-                                   description=f'Vanilla Splattershot Nova or Vanilla Inkbrush must be selected by all players. This game will be played on Eeltail Alley Tower Control.')
+                                   description=f'All players must use either the vanilla Splattershot Nova or vanilla Inkbrush. This game will be played on Eeltail Alley Tower Control.')
 
         # Secret Agents (Normal Odds)
         case 'Secret Agents':
             embed = interactions.Embed(title='Secret Agents', color=_COLOR,
-                                   description=f'Every player must select Undercover Brella. This game will be played on Wahoo World Splat Zones.')
+                                   description=f'Every player must select an Undercover Brella. This game will be played on Wahoo World Splat Zones.')
 
         # Bubble Bath (Normal Odds)
         case 'Bubble Bath':
             embed = interactions.Embed(title='Bubble Bath', color=_COLOR,
-                                   description=f'Every player must select Vanilla Bloblobber, except for one player on each team who may select Bloblobber Deco. This game will be played on Inkblot Art Academy Rainmaker.')
+                                   description=f'Every player must select vanilla Bloblobber, except for one player on each team who may select Bloblobber Deco. This game will be played on Inkblot Art Academy Rainmaker.')
 
         # Double Down (Boosted Odds)
         case 'Double Down':

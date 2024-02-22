@@ -249,7 +249,7 @@ def modifier_function(mod: str = ''):
         case 'Random Weapon Mirror':
             weapons = [f'**__{randomWeapon()}__**' for _ in range(4)]
             embed = interactions.Embed(title='Random Weapon Mirror', color=_COLOR,
-                                    description=f'Each team must select which team member uses each of the following weapons:\n\n' + {'\n'.join(weapons)})
+                                    description=f'Each team must select which team member uses each of the following weapons:\n\n {'\n'.join(weapons)}')
 
         # Same Random Sub (Boosted Odds)
         case 'Same Random Sub':

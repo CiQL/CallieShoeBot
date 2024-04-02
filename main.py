@@ -207,6 +207,7 @@ def maplist_function(amount: int):
         'Shipshape Cargo Co.',
         'Robo ROM-en',
         'Bluefin Depot',
+        'Marlin Airport'
         ]
     game_modes = ['Splat Zones', 'Tower Control', 'Rainmaker', 'Clam Blitz']
 
@@ -484,7 +485,9 @@ def randomWeapon():
               'Splatter Shot Nova', 'Splattershot Pro', 'Sploosh-o-matic', 'Squeezer', 'Tenta Brella',
               'Tenta Sorella Brella',
               'Tentatek Splattershot', 'Tri-Slosher', 'Tri-Slosher Nouveau', 'Tri-Stringer', 'Undercover Brella',
-              'Z+F Splat Charger', 'Z+F Splatterscope', 'Zink Mini Splatling']
+              'Z+F Splat Charger', 'Z+F Splatterscope', 'Zink Mini Splatling',
+              'Douser Dualies FF', 'Recycled Brella 24 Mk I', '.52 Gal Deco', 'Custom E-liter 4K', 'Custom E-liter 4K Scope', 
+              'Custom Explosher', 'Dread Wringer D', 'Foil Flingza Roller', 'Glooga Dualies Deco', 'Nautilus 79', 'New Squiffer']
     return random.choice(weapon)
 
 
@@ -497,7 +500,7 @@ def randomSub():
 def randomSpecial():
     specials = ['Inkjet', 'Ink Storm', 'Booyah Bomb', 'Ultra Stamp', 'Trizooka', 'Big Bubbler', 'Zipcaster',
                 'Wavebreaker', 'Ink Vac', 'Killer Wail 5.1', 'Crab Tank', 'Reefslider', 'Tacticooler',
-                'Triple Inkstrike',
+                'Triple Inkstrike', 'Kraken Royale', #'Splattercolor Screen',
                 'Triple Splashdown']
     return random.choice(specials)
 
